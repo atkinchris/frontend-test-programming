@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript">
+    'use strict';
+    
+    function cb(data) {
+        for (var i = 0; i < data.items.length; i++) {
+            var element = createElement(data.items[i]);
+            document.body.appendChild(element);
+        }
+    }
+
+    function createElement(data) {
+        var container = document.createElement('div');
+        container.style.display = 'inline-block';
+        var image = document.createElement('img');
+        image.src = data.media.m;
+        container.appendChild(image);
+        return container;
+    }
+
+    (function() {
+        var tags = 'london';
+        var script = document.createElement('script');
+        script.src = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=cb&tags=' + tags;
+        document.head.appendChild(script);
+    })();
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
