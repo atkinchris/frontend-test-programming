@@ -1,0 +1,21 @@
+.image-holder {
+	display: inline-block;
+    margin: 16px;
+    width: 150px;
+}
+
+.image-holder.selected {
+	background-color: yellow;
+}
+
+.image-holder p {
+	height: 1.2em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.image-holder img {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}

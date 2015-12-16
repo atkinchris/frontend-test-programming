@@ -2,26 +2,13 @@
 <html>
 
 <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+    <script src="app.js"></script>
     <script type="text/javascript">
-    'use strict';
-    
-    function cb(data) {
-        for (var i = 0; i < data.items.length; i++) {
-            var element = createElement(data.items[i]);
-            document.body.appendChild(element);
-        }
-    }
-
-    function createElement(data) {
-        var container = document.createElement('div');
-        container.style.display = 'inline-block';
-        var image = document.createElement('img');
-        image.src = data.media.m;
-        container.appendChild(image);
-        return container;
-    }
-
     (function() {
+        'use strict';
+
         var tags = 'london';
         var script = document.createElement('script');
         script.src = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=cb&tags=' + tags;
@@ -30,7 +17,11 @@
     </script>
 </head>
 
-<body>
+<body ng-controller="Controller as vm">
+    <div class="image-holder" ng-repeat="image in vm.data.items" ng-click="vm.select(image)" ng-class="{ 'selected': image.isFavourite }">
+        <img src="{{image.media.m}}">
+        <p>{{image.title}}</p>
+    </div>
 </body>
 
 </html>
