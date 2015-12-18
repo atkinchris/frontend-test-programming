@@ -2,25 +2,16 @@
 <html>
 
 <head>
+    <title>Front-End Test: Programming</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/favourites.js"></script>
+    <script src="js/gallery.js"></script>
     <script type="text/javascript">
-    'use strict';
-    
     function cb(data) {
-        for (var i = 0; i < data.items.length; i++) {
-            var element = createElement(data.items[i]);
-            document.body.appendChild(element);
-        }
+        var favourites = new Favourites();
+        var container = document.getElementById('gallery');
+        new Gallery(data, favourites, container);
     }
-
-    function createElement(data) {
-        var container = document.createElement('div');
-        container.style.display = 'inline-block';
-        var image = document.createElement('img');
-        image.src = data.media.m;
-        container.appendChild(image);
-        return container;
-    }
-
     (function() {
         var tags = 'london';
         var script = document.createElement('script');
@@ -31,6 +22,8 @@
 </head>
 
 <body>
+    <div id="gallery"></div>
+    <a href="tests.html">Test results</a>
 </body>
 
 </html>
