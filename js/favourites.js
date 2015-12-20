@@ -12,7 +12,11 @@
     exports.Favourites = Favourites;
 
     Favourites.prototype.getFavourites = function() {
-        return JSON.parse(_storage.getItem(_KEY)) || [];
+        var items = _storage.getItem(_KEY);
+        if (items && typeof items === 'string') {
+            return JSON.parse(items);
+        }
+        return [];
     };
 
     Favourites.prototype.saveFavourites = function() {
