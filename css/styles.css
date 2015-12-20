@@ -1,5 +1,5 @@
 .gallery-item {
-    display: inline-block; 
+    float: left;
     cursor: pointer;
     position: relative;
     width: 200px;
