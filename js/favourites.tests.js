@@ -105,4 +105,16 @@ describe('Favourites', function() {
             expect(index).to.equal(-1);
         });
     });
+
+    describe('clearFavourites', function() {
+        it('should remove the item from storage', function() {
+            favourites.clearFavourites();
+            expect(mockStorage.removeItem).to.have.been.calledWithExactly('favourites');
+        });
+
+        it('should clear the list of favourites', function() {
+            favourites.clearFavourites();
+            expect(favourites.getFavourites()).to.be.empty;
+        });
+    });
 });

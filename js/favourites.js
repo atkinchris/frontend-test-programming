@@ -26,6 +26,7 @@
     };
 
     Favourites.prototype.clearFavourites = function() {
+        this._favourites = [];
         this._storage.removeItem(_KEY);
     };
 
