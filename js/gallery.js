@@ -22,13 +22,13 @@
         var container = document.createElement('div');
         container.onclick = onClick;
         container.className = 'gallery-item';
-        if (data.isFavourite) {
-            container.classList.add('selected');
-        }
 
         var image = document.createElement('img');
         image.src = data.media.m;
         container.appendChild(image);
+        if (data.isFavourite) {
+            image.classList.add('selected');
+        }
 
         var title = document.createElement('h2');
         title.innerHTML = data.title;
@@ -40,9 +40,9 @@
             self.favourites.toggleFavourite(data);
 
             if (data.isFavourite) {
-                container.classList.add('selected');
+                image.classList.add('selected');
             } else {
-                container.classList.remove('selected');
+                image.classList.remove('selected');
             }
         }
     };
