@@ -117,4 +117,30 @@ describe('Favourites', function() {
             expect(favourites.getFavourites()).to.be.empty;
         });
     });
+
+    describe('toggleFavourites', function() {
+        it('should make an item a favourite', function() {
+            var item = {
+                link: 'link2',
+                isFavourite: false
+            };
+            favourites.toggleFavourite(item);
+            var index = favourites.getFavourites().indexOf('link2');
+
+            expect(item.isFavourite).to.be.true;
+            expect(index).to.be.above(-1);
+        });
+
+        it('should make an item not a favourite', function() {
+            var item = {
+                link: 'link1',
+                isFavourite: true
+            };
+            favourites.toggleFavourite(item);
+            var index = favourites.getFavourites().indexOf('link1');
+
+            expect(item.isFavourite).to.be.false;
+            expect(index).to.equal(-1);
+        });
+    });
 });
