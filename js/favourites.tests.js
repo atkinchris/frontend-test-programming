@@ -2,25 +2,24 @@
 /* globals chai, sinon, describe, beforeEach, it, Favourites */
 
 var expect = chai.expect;
-var mockStorage;
-var favourites;
-
-beforeEach(function() {
-    mockStorage = {
-        getItem: sinon.stub(),
-        setItem: sinon.stub(),
-        removeItem: sinon.stub()
-    };
-
-    var items = JSON.stringify([
-        'link1'
-    ]);
-    mockStorage.getItem.returns(items);
-
-    favourites = new Favourites(mockStorage);
-});
 
 describe('Favourites', function() {
+    var mockStorage;
+    var favourites;
+
+    beforeEach(function() {
+        var items = JSON.stringify([
+            'link1'
+        ]);
+
+        mockStorage = {
+            getItem: sinon.stub().returns(items),
+            setItem: sinon.stub(),
+            removeItem: sinon.stub()
+        };
+        favourites = new Favourites(mockStorage);
+    });
+
     describe('constructor', function() {
         it('should be defined after construction', function() {
             expect(favourites).to.be.defined;
@@ -41,6 +40,8 @@ describe('Favourites', function() {
 
         it('should return an empty array if storage is not set', function() {
             mockStorage.getItem.returns(undefined);
+            favourites = new Favourites(mockStorage);
+
             var output = favourites.getFavourites();
             expect(output).to.be.an.array;
             expect(output).to.be.empty;
@@ -48,6 +49,8 @@ describe('Favourites', function() {
 
         it('should return an empty array if storage is invalid', function() {
             mockStorage.getItem.returns({});
+            favourites = new Favourites(mockStorage);
+
             var output = favourites.getFavourites();
             expect(output).to.be.an.array;
             expect(output).to.be.empty;
@@ -74,6 +77,32 @@ describe('Favourites', function() {
                 link: 'linkA'
             };
             expect(favourites.isFavourite(item)).to.be.false;
+        });
+    });
+
+    describe('addFavourite', function() {
+        it('should set an item as a favourite', function() {
+            var item = {
+                link: 'link2'
+            };
+            favourites.addFavourite(item);
+            var index = favourites.getFavourites().indexOf('link2');
+
+            expect(favourites.isFavourite(item)).to.be.true;
+            expect(index).to.be.above(-1);
+        });
+    });
+
+    describe('removeFavourite', function() {
+        it('should remove an item from favourites', function() {
+            var item = {
+                link: 'link1'
+            };
+            favourites.removeFavourite(item);
+            var index = favourites.getFavourites().indexOf('link1');
+
+            expect(favourites.isFavourite(item)).to.be.false;
+            expect(index).to.equal(-1);
         });
     });
 });

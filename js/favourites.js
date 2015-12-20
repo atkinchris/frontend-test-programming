@@ -2,17 +2,19 @@
     'use strict';
 
     var _KEY = 'favourites';
-    var _storage;
-    var _favourites;
 
     function Favourites(storage) {
-        _storage = storage || window.localStorage;
-        _favourites = this.getFavourites();
+        this._storage = storage || window.localStorage;
+        this._favourites = this.getFavourites();
     }
     exports.Favourites = Favourites;
 
     Favourites.prototype.getFavourites = function() {
-        var items = _storage.getItem(_KEY);
+        if (this._favourites) {
+            return this._favourites;
+        }
+
+        var items = this._storage.getItem(_KEY);
         if (items && typeof items === 'string') {
             return JSON.parse(items);
         }
@@ -20,11 +22,11 @@
     };
 
     Favourites.prototype.saveFavourites = function() {
-        _storage.setItem(_KEY, JSON.stringify(_favourites));
+        this._storage.setItem(_KEY, JSON.stringify(this._favourites));
     };
 
     Favourites.prototype.clearFavourites = function() {
-        _storage.removeItem(_KEY);
+        this._storage.removeItem(_KEY);
     };
 
     Favourites.prototype.mapFavourites = function(items) {
@@ -44,17 +46,17 @@
 
     Favourites.prototype.removeFavourite = function(item) {
         item.isFavourite = false;
-        _favourites = _favourites.filter( function(i) {
+        this._favourites = this._favourites.filter(function(i) {
             return i !== item.link;
         });
     };
 
     Favourites.prototype.addFavourite = function(item) {
         item.isFavourite = true;
-        _favourites.push(item.link);
+        this._favourites.push(item.link);
     };
 
     Favourites.prototype.isFavourite = function(item) {
-        return _favourites.indexOf(item.link) > -1;
+        return this._favourites.indexOf(item.link) > -1;
     };
 })(this);
