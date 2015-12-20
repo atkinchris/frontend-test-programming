@@ -2,30 +2,37 @@
 /* globals chai, sinon, describe, beforeEach, it, Favourites */
 
 var expect = chai.expect;
-var mockStorage = {
-    getItem: sinon.stub(),
-    setItem: sinon.stub(),
-    removeItem: sinon.stub()
-};
+var mockStorage;
 var favourites;
-var items;
 
 beforeEach(function() {
-    items = JSON.stringify([
+    mockStorage = {
+        getItem: sinon.stub(),
+        setItem: sinon.stub(),
+        removeItem: sinon.stub()
+    };
+
+    var items = JSON.stringify([
         'link1'
     ]);
+    mockStorage.getItem.returns(items);
 
     favourites = new Favourites(mockStorage);
 });
 
 describe('Favourites', function() {
-    it('should be defined after construction', function() {
-        expect(favourites).to.be.defined;
+    describe('constructor', function() {
+        it('should be defined after construction', function() {
+            expect(favourites).to.be.defined;
+        });
+
+        it('should get favourites on contruction', function() {
+            expect(mockStorage.getItem).to.have.been.called;
+        });
     });
 
     describe('getFavourites', function() {
         it('should get items from storage with the key', function() {
-            mockStorage.getItem.returns(items);
             var output = favourites.getFavourites();
             expect(mockStorage.getItem).to.have.been.calledWith('favourites');
             expect(output).to.be.an.array;
@@ -50,7 +57,23 @@ describe('Favourites', function() {
     describe('saveFavourites', function() {
         it('should save items to storage with key', function() {
             favourites.saveFavourites();
-            expect(mockStorage.setItem).to.have.been.calledWithExactly('favourites', '[]');
+            expect(mockStorage.setItem).to.have.been.calledWithExactly('favourites', '["link1"]');
+        });
+    });
+
+    describe('isFavourite', function() {
+        it('should return true if an item is a favourite', function() {
+            var item = {
+                link: 'link1'
+            };
+            expect(favourites.isFavourite(item)).to.be.true;
+        });
+
+        it('should return false if an item is not a favourite', function() {
+            var item = {
+                link: 'linkA'
+            };
+            expect(favourites.isFavourite(item)).to.be.false;
         });
     });
 });
